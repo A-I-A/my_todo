@@ -7,12 +7,12 @@ let state = {
   items: 0,
   filter : ALL
 }
-
-if (!localStorage.hasOwnProperty('todo')){
-  saveState ();  
-} else {getState()}
-
-createTaskList(getTasks(state.filter));
+function initApp () {
+  if (!localStorage.hasOwnProperty('todo')){
+    saveState ();  
+  } else {getState()}
+  updateList();
+}
 
 function saveState () {
   localStorage.setItem('todo', JSON.stringify(state));
@@ -109,7 +109,7 @@ todoInput.onchange=()=>{addTask(todoInput.value);
                         todoInput.value=''; 
                         updateList();}
 
-function prepareAllDoneToggle (){
+function updateAllDoneToggle (){
   let all = numberOfTasks();
   let completed = numberOfCompletedTasks();
   let allDoneToggle = document.querySelector('.all-done-toggle');
@@ -199,7 +199,7 @@ function prepareFilters (){
   filters[2].onclick = ()=>{setFilter(ACTIVE); updateList()};
 }
 
- function prepareFooter(){
+ function updateFooter(){
   let all = numberOfTasks();
   let completed = numberOfCompletedTasks();
   let active = numberOfActiveTasks();
@@ -224,11 +224,11 @@ function prepareFilters (){
 
 
 function updateList (){
-  prepareAllDoneToggle();
+  updateAllDoneToggle();
   createTaskList(getTasks(state.filter));
-  prepareFooter();
+  updateFooter();
 }
 
-updateList ()
+initApp();
 
 
