@@ -1,0 +1,32 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title> Enjoy my todo </title>
+    <link rel='stylesheet' href='style.css'>
+  </head>
+  
+  <body>
+    <div class=app>
+        <h1> todo </h1>
+        <div class='todo-input-panel'>
+          <input type='button' class= 'all-done-toggle' value='v'>
+          <input type="text" class='todo-input' placeholder='Что будем делать?'>
+        </div>
+        <ul class='todo-list'></ul>
+      <div class='footer'>
+        <span class='items-left'> </span>
+        <div class='filters'>
+          <button class='filter' type='button'>All</button>
+          <button class='filter' type='button'>Completed</button>
+          <button class='filter' type='button'>Active</button>
+        </div>
+        <input type='button' class= 'delete-completed'>
+      </div>
+    </div>
+    
+  <script src="todo.js">
+  </script>
+  </body>
+</html>
