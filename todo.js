@@ -125,34 +125,30 @@ function updateAllDoneToggle (){
                                 toggleAllTasksCompletion(false);
                                }
                                updateList()};                            
-}         
-                       
+} 
+
+let listItemTemplate = document.querySelector('#list-item-template').content;
+                      
 function createTaskList(list){
   let todoList= document.querySelector('.todo-list');
   todoList.innerHTML='';
   for (let task of list){
-    let listItem = document.createElement('li');
-    listItem.classList.add('todo-list-item');
-    listItem.dataset.id=task.id;
-    listItem.onmouseover=()=>{listItem.lastChild.style.visibility='visible'}
-    listItem.onmouseout=()=>{listItem.lastChild.style.visibility='hidden'}
+    let listItem = listItemTemplate.querySelector('.todo-list-item').cloneNode(true); 
+    let doneBox = listItem.querySelector('.done-box');
+    let doneLabel = listItem.querySelector('.done-label');
+    let taskText = listItem.querySelector('.task-text');
+    let deleteButton = listItem.querySelector('.delete-button');
 
-    let doneBox = document.createElement('input');
-    doneBox.type='checkbox'
-    doneBox.classList.add('done-box')
+    listItem.onmouseover=()=>{deleteButton.style.visibility='visible'}
+    listItem.onmouseout=()=>{deleteButton.style.visibility='hidden'}
+    
     doneBox.id=task.id;
     doneBox.onchange=()=>{changeTaskCompletion(task.id);
                           taskText.classList.toggle('task-done')
                           updateList()};
-    listItem.append(doneBox);
 
-    let doneLabel = document.createElement('label');
-    doneLabel.classList.add('done-label');
     doneLabel.htmlFor=task.id;
-    listItem.append(doneLabel);
-
-    let taskText = document.createElement('p');
-    taskText.classList.add('task-text')
+    
     taskText.textContent = task.text;
     taskText.ondblclick= ()=>{taskText.classList.add('not-displayed');
                               doneLabel.classList.add('not-displayed');
@@ -161,23 +157,18 @@ function createTaskList(list){
                               newInput.type='text';
                               newInput.classList.add('new-text-input');
                               newInput.value = task.text;
-                              newInput.onchange=()=>{changeTaskText(listItem.dataset.id, newInput.value)
+                              newInput.onchange=()=>{changeTaskText(task.id, newInput.value)
                                                       taskText.textContent=newInput.value;
-                                                      listItem.removeChild(newInput); 
-                                                      delete newInput;  
+                                                      newInput.remove();  
                                                       taskText.classList.remove('not-displayed');
                                                       doneLabel.classList.remove('not-displayed');
                                                       deleteButton.classList.remove('not-displayed');}
                               listItem.append(newInput);
     };
-    listItem.append(taskText);
 
-    let deleteButton = document.createElement('button');
-    deleteButton.classList.add('delete-button');
     deleteButton.textContent = '\u00D7';
-    deleteButton.onclick=()=>{deleteTask(deleteButton.parentNode.dataset.id);
-                                updateList()}
-    listItem.append(deleteButton);
+    deleteButton.onclick=()=>{deleteTask(task.id);                       
+                              updateList()}
     if (task.isDone){
       doneBox.checked=true;
       taskText.classList.add('task-done');
