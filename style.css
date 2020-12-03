@@ -27,7 +27,7 @@ h1 {
 }
 
 .all-done-toggle{
-  width: 60px;
+  flex-basis: 60px;
   background-color: #ffffff;
   border: none;
   color: #777;
@@ -43,7 +43,7 @@ h1 {
 
 .todo-input{
   font-size: 24px;
-  width:100%;
+  flex-grow:1;
   padding: 0px 10px;
   border: none;
   
@@ -91,7 +91,7 @@ h1 {
   margin: 0px;
   hyphens: auto;
   word-break: break-all; 
-  width : 100%;
+  flex-grow:1;
 }
 
 .delete-button{
@@ -113,7 +113,7 @@ h1 {
   margin : 0px 10px 0px 40px;
   border-radius: 0px;
   font-size: 24px;
-  width:100%;
+  flex-grow:1;
 }
 
 .footer {

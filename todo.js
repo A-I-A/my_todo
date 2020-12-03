@@ -105,9 +105,12 @@ function numberOfTasks () {
 }
 
 let todoInput = document.querySelector('.todo-input');
-todoInput.onchange=()=>{addTask(todoInput.value); 
-                        todoInput.value=''; 
-                        updateList();}
+todoInput.onblur=(event)=>{event.preventDefault();todoInput.focus()}
+todoInput.onblur=()=>{todoInput.value='';}
+todoInput.onkeydown=(event)=>{if (event.key == 'Enter' || event.key == 'Escape'){
+                               addTask(todoInput.value); 
+                               todoInput.value=''; 
+                               updateList();}}
 
 function updateAllDoneToggle (){
   let all = numberOfTasks();
@@ -141,14 +144,11 @@ function createTaskList(list){
 
     listItem.onmouseover=()=>{deleteButton.style.visibility='visible'}
     listItem.onmouseout=()=>{deleteButton.style.visibility='hidden'}
-    
     doneBox.id=task.id;
     doneBox.onchange=()=>{changeTaskCompletion(task.id);
                           taskText.classList.toggle('task-done')
                           updateList()};
-
     doneLabel.htmlFor=task.id;
-    
     taskText.textContent = task.text;
     taskText.ondblclick= ()=>{taskText.classList.add('not-displayed');
                               doneLabel.classList.add('not-displayed');
@@ -157,15 +157,23 @@ function createTaskList(list){
                               newInput.type='text';
                               newInput.classList.add('new-text-input');
                               newInput.value = task.text;
-                              newInput.onchange=()=>{changeTaskText(task.id, newInput.value)
+                              listItem.append(newInput);
+                              newInput.focus();
+                              newInput.onblur=()=>{changeTaskText(task.id, newInput.value)
                                                       taskText.textContent=newInput.value;
                                                       newInput.remove();  
                                                       taskText.classList.remove('not-displayed');
                                                       doneLabel.classList.remove('not-displayed');
                                                       deleteButton.classList.remove('not-displayed');}
-                              listItem.append(newInput);
+                              newInput.onkeydown=(event)=>{if (event.key == 'Enter' || event.key == 'Escape'){ 
+                                                            changeTaskText(task.id, newInput.value)
+                                                            taskText.textContent=newInput.value;
+                                                            newInput.remove();  
+                                                            taskText.classList.remove('not-displayed');
+                                                            doneLabel.classList.remove('not-displayed');
+                                                            deleteButton.classList.remove('not-displayed');}}
+                              
     };
-
     deleteButton.textContent = '\u00D7';
     deleteButton.onclick=()=>{deleteTask(task.id);                       
                               updateList()}
